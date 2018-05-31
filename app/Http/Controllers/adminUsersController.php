@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\Http\Requests\usersRequest;
+
+use App\User;
+
+use App\Role;
+
 class adminUsersController extends Controller
 {
     /**
@@ -16,7 +22,9 @@ class adminUsersController extends Controller
     public function index()
     {
         //
-        return view('admin.users.index');
+        $users = User::all();
+
+        return view('admin.users.index',compact('users','roles'));
     }
 
     /**
@@ -27,6 +35,8 @@ class adminUsersController extends Controller
     public function create()
     {
         //
+        $roles = Role::lists('name','id')->all();
+        return view('admin.users.create',compact('roles'));
     }
 
     /**
@@ -35,9 +45,12 @@ class adminUsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(usersRequest $request)
     {
         //
+        User::create($request->all());
+
+        return $request->all();
     }
 
     /**
