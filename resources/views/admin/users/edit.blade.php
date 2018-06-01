@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-    <h2>Create User</h2>
+    <h2>Edit User</h2>
 
     <div class="row">
         <div class="col-md-3 col-sm-12">
@@ -25,7 +25,7 @@
             <div class="form-group">
 
                 {!! Form::label('password', 'Password:') !!}
-                {!! Form::text('password', null,['class'=>'form-control']) !!}
+                {!! Form::text('password','',['class'=>'form-control']) !!}
 
             </div>
             <div class="form-group">
@@ -40,12 +40,29 @@
             </div>
             <div class="form-group">
 
-                {!! Form::submit('Create User',['class'=>'btn btn-primary']) !!}
+                {!! Form::submit('Update',['class'=>'btn btn-primary']) !!}
 
             </div>
 
             {!! Form::close() !!}
         </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-9">
+
+            {!! Form::open(['method'=>'DELETE', 'action'=>['adminUsersController@destroy',$user->id]]) !!}
+
+                <div>
+
+                    {!! Form::submit('Delete User',['class'=>'btn btn-danger']) !!}
+
+                </div>
+
+                {!! Form::close() !!}
+
+        </div>
+
     </div>
 
     <div class="row">@include('includes/showInputErrors')</div>

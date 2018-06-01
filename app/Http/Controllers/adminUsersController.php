@@ -13,6 +13,7 @@ use App\User;
 use App\Role;
 
 use App\Photo;
+use Illuminate\Support\Facades\Session;
 
 class adminUsersController extends Controller
 {
@@ -95,6 +96,8 @@ class adminUsersController extends Controller
 
         $roles = Role::lists('name','id')->all();
 
+        bcrypt($user->password);
+
         return view('admin.users.edit',compact('user','roles'));
     }
 
@@ -124,6 +127,8 @@ class adminUsersController extends Controller
 
         }
 
+        $input['password']=bcrypt($request->password);
+
         $user->update($input);
 
         return redirect('/admin/users');
@@ -139,5 +144,13 @@ class adminUsersController extends Controller
     public function destroy($id)
     {
         //
+        $user = User::findOrFail($id);
+
+        unlink(public_path().$user->photo->path);
+
+        $user->delete();
+
+        Session::flash('deleted_user','The user has been deleted' );
+        return redirect('/admin/users');
     }
 }
